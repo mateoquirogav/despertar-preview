@@ -140,22 +140,20 @@ svg{display:block}
 .vp svg{width:15px;height:15px}
 .nota{margin-top:26px;font-size:12px;color:var(--mu);display:flex;gap:8px;align-items:center}
 .nota svg{width:15px;height:15px;flex:none}
-/* problema-solución: pregunta + texto breve izq, imagen der */
-.ps{background:var(--nv);color:#fff;position:relative;overflow:hidden}
-.ps:before{content:"";position:absolute;width:700px;height:700px;right:-200px;top:-200px;background:radial-gradient(closest-side,rgba(0,71,175,.55),transparent)}
-.ps .wrap{position:relative}
-.ps .h2{color:#fff}.ps .h2 em{color:var(--cy)}
-.ps .sub{color:#C3CEE3}
-.ps-g{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center}
-.ps-l{display:grid;gap:12px;margin-top:24px}
-.ps-l div{display:flex;gap:12px;align-items:center;font-size:15px;color:#E6ECF7}
-.ps-l i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--cy);color:var(--nv);display:grid;place-items:center}
-.ps-l i svg{width:14px;height:14px}
-.ps .btn{margin-top:28px}
-.psimg{position:relative;width:100%;max-width:420px;justify-self:center;aspect-ratio:9/11;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -25px rgba(0,0,0,.8),0 0 0 1px rgba(39,196,255,.25)}
-.psimg img,.psimg video{width:100%;height:100%;object-fit:cover;display:block}
-.psimg span{position:absolute;left:14px;bottom:14px;background:#fff;color:var(--ink);font:700 11px Montserrat;letter-spacing:.08em;text-transform:uppercase;padding:9px 13px;border-radius:999px;display:flex;gap:8px;align-items:center}
-.psimg span b{width:8px;height:8px;border-radius:50%;background:var(--bl)}
+/* problema-solución: video de fondo a lo ancho, texto al medio */
+.ps{position:relative;overflow:hidden;isolation:isolate;background:var(--nv);color:#fff;padding:120px 0}
+.ps-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.ps-bm{display:none}
+.ps:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at center,rgba(7,18,43,.62) 0%,rgba(7,18,43,.38) 75%),linear-gradient(0deg,rgba(7,18,43,.25),rgba(7,18,43,.25))}
+.ps-c{text-align:center;display:flex;flex-direction:column;align-items:center}
+.ps .kick{color:var(--cy)}
+.ps .h2{color:#fff;font-size:48px;max-width:760px;text-shadow:0 2px 24px rgba(0,0,0,.5)}.ps .h2 em{color:var(--cy)}
+.ps .sub{color:#EEF2FA;margin:16px auto 0;max-width:560px;font-weight:400;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.ps-l{display:flex;gap:12px 26px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.ps-l div{display:flex;gap:10px;align-items:center;font-size:15px;color:#EEF2FA}
+.ps-l i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--cy);color:var(--nv);display:grid;place-items:center}
+.ps-l i svg{width:13px;height:13px}
+.ps .btn{margin-top:30px}
 /* reseñas de Google */
 .gsum{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:#fff;border:1px solid var(--ln);border-radius:16px;padding:18px 24px;margin-bottom:26px}
 .gsum .gl{width:38px;height:38px}
@@ -317,14 +315,14 @@ svg{display:block}
   .vp{height:36px;font-size:9.5px;margin-top:9px}
   .tag{bottom:7px;left:7px;font-size:9px;padding:4px 7px}
   .rib{font-size:9px;top:13px;right:-38px}
-  /* texto e imagen lado a lado también en celular */
-  .ps-g{grid-template-columns:1fr 42%;gap:14px}
-  .ps-g .h2{font-size:20px}
-  .ps-g .sub{font-size:12.5px;line-height:1.5;margin-top:8px}
-  .ps-l{display:none}
-  .ps .btn{height:42px;padding:0 14px;font-size:10px;margin-top:14px}
-  .psimg{max-width:none;border-radius:14px}
-  .psimg span{left:6px;bottom:6px;font-size:8px;padding:6px 8px}
+  /* problema-solución celular: video vertical de fondo, texto al medio */
+  .ps{padding:110px 0}
+  .ps-bp{display:none}.ps-bm{display:block}
+  .ps .h2{font-size:28px}
+  .ps .sub{font-size:14px}
+  .ps-l{flex-direction:column;align-items:flex-start;gap:10px;margin:20px auto 0;width:max-content;max-width:100%}
+  .ps-l div{font-size:14px}
+  .ps .btn{width:100%}
   .gsum{padding:14px 16px;gap:12px}
   .gsum .gl{width:30px;height:30px}.gsum .gn{font-size:30px}
   .gsum .btn{margin-left:0;width:100%}
@@ -450,20 +448,22 @@ svg{display:block}
     <p class="nota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v5h1"/></svg>Fotos reales de Despertar Electrónica. Precios, descuentos y cuotas se toman de tu Tiendanube.</p>
   </div></section>
 
-  <!-- 7 · Problema-solución -->
-  <section class="sec ps" id="ps"><div class="wrap ps-g">
-    <div>
+  <!-- 7 · Problema-solución: video del local de fondo a lo ancho, texto al medio -->
+  <section class="sec ps" id="ps">
+    <video class="ps-bg ps-bp" src="ps-bg.mp4" poster="ps-bg.jpg" autoplay muted loop playsinline></video>
+    <video class="ps-bg ps-bm" src="ps-v.mp4" poster="ps-poster.jpg" autoplay muted loop playsinline></video>
+    <div class="wrap ps-c">
+      <div class="kick rv">Nuestro local en Merlo</div>
       <div class="h2 rv">¿No sabés <em>cuál te conviene?</em></div>
       <p class="sub rv" style="--i:1">Celular, parlante o repetidor: te decimos cuál va con lo que necesitás y tu presupuesto. Sin vueltas, por WhatsApp o en el local.</p>
       <div class="ps-l rv" style="--i:2">
         <div><i><svg><use href="#ok"/></svg></i>Te asesoramos antes de comprar</div>
         <div><i><svg><use href="#ok"/></svg></i>Productos con garantía</div>
-        <div><i><svg><use href="#ok"/></svg></i>Te lo mandamos a todo el país</div>
+        <div><i><svg><use href="#ok"/></svg></i>Envíos a todo el país</div>
       </div>
       <a class="btn cy rv" style="--i:3" href="#mapa">Quiero que me asesoren</a>
     </div>
-    <div class="psimg rv" style="--i:1"><video src="ps-v.mp4" poster="ps-poster.jpg" autoplay muted loop playsinline></video><span><b></b>Nuestro local en Merlo</span></div>
-  </div></section>
+  </section>
 
   <!-- 8 · Testimonios: reseñas de Google -->
   <section class="sec" id="tst" style="background:var(--gr)">
