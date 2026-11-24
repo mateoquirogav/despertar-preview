@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Despertar Electrónica · Estructura 3 · PRAXIS</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--nv:#07122B;--nv2:#0C1D42;--bl:#0047AF;--bl2:#E8F0FC;--cy:#27C4FF;--rd:#E21B3C;--gr:#F3F5F9;--gr2:#E7EBF2;--mu:#5B6475;--ln:#E2E6EE;--ink:#0B1226}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#E4E7EC;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+svg{display:block}
+/* ---------- barra PRAXIS ---------- */
+.tool{position:fixed;inset:0 0 auto 0;height:58px;z-index:50;background:#0F1B2E;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+.tool b{font:800 14px Montserrat;letter-spacing:.18em}
+.tool b span{font:400 13px Inter;letter-spacing:.02em;opacity:.65;margin-left:12px}
+.seg{display:flex;background:rgba(255,255,255,.08);border-radius:999px;padding:4px}
+.seg button{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;padding:7px 16px;border-radius:999px;font:500 13px Inter;color:#C9D3E3}
+.seg button.on{background:#fff;color:#0F1B2E}
+.seg.pg button{padding:7px 14px}
+.stage{position:fixed;inset:58px 0 0 0;display:flex;justify-content:center;align-items:flex-start;padding:22px;overflow:hidden}
+.device{width:100%;max-width:1360px;height:100%;background:#fff;border-radius:12px;box-shadow:0 30px 80px -30px rgba(0,0,0,.4);overflow:hidden;display:flex;flex-direction:column;transition:max-width .5s cubic-bezier(.2,.8,.2,1),border-radius .5s}
+.chrome{height:38px;flex:none;background:#F1F1F1;display:flex;align-items:center;gap:7px;padding:0 14px;border-bottom:1px solid #E2E2E2}
+.chrome i{width:11px;height:11px;border-radius:50%;background:#D8D8D8}
+.chrome .url{margin-left:14px;flex:1;max-width:420px;height:24px;border-radius:7px;background:#fff;display:flex;align-items:center;gap:6px;padding:0 10px;font-size:12px;color:#777}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+.device.mob{max-width:390px;border-radius:44px;border:10px solid #111;height:min(100%,844px)}
+.device.mob .chrome{display:none}
+@media (max-width:760px){
+  .tool{height:52px;padding:0 12px}.tool b span{display:none}
+  .stage{inset:52px 0 0 0;padding:0}.device,.device.mob{max-width:none;border-radius:0;border:0;height:100%}
+  .chrome,.seg:not(.pg){display:none}
+}
+/* ---------- sitio ---------- */
+.site{container-type:inline-size;background:#fff}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.kick{font:700 11px Montserrat;letter-spacing:.24em;text-transform:uppercase;color:var(--bl);margin-bottom:10px}
+.h2{font:900 40px/1.05 Montserrat;text-transform:uppercase;color:var(--ink);letter-spacing:-.01em}
+.h2 em{font-style:normal;color:var(--bl)}
+.sub{font-size:16px;line-height:1.65;color:var(--mu);margin-top:14px;max-width:520px;font-weight:300}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 30px;border-radius:10px;font:800 12.5px Montserrat;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;background:var(--bl);color:#fff;border:0}
+.btn svg{width:18px;height:18px}
+.btn.o{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
+.btn.k{background:var(--nv);color:#fff}
+.btn.cy{background:var(--cy);color:var(--nv)}
+.btn.wsp{background:#1DA851}
+.sec{padding:84px 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px;gap:20px}
+.link{font:800 12px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--bl);padding-bottom:3px;white-space:nowrap}
+/* logo */
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo img{width:54px;height:54px;border-radius:50%;display:block}
+.logo b{font:900 20px/1 Montserrat;letter-spacing:.02em;display:block}
+.logo small{font:700 9.5px Montserrat;letter-spacing:.26em;color:var(--bl);display:block;margin-top:4px}
+/* anuncio */
+.ann{background:var(--nv);color:#fff;height:36px;overflow:hidden;position:relative}
+.ann-t{display:flex;flex-direction:column;animation:ann 12s infinite}
+.ann-t div{height:36px;display:flex;align-items:center;justify-content:center;gap:10px;font:600 11.5px Montserrat;letter-spacing:.14em;text-transform:uppercase}
+.ann-t svg{width:15px;height:15px;color:var(--cy)}
+@keyframes ann{0%,28%{transform:translateY(0)}33%,61%{transform:translateY(-36px)}66%,94%{transform:translateY(-72px)}100%{transform:translateY(-108px)}}
+/* encabezado */
+.hdr{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.hdr .wrap{height:80px;display:flex;align-items:center;gap:30px}
+.nav{display:flex;gap:26px;margin-left:auto;font:800 11.5px Montserrat;letter-spacing:.12em;text-transform:uppercase}
+.nav a{color:var(--ink);text-decoration:none}
+.nav a.hot{color:var(--rd)}
+.ico{display:flex;gap:16px;margin-left:24px}
+.ico svg{width:22px;height:22px}
+.cart{position:relative}.cart b{position:absolute;top:-6px;right:-8px;background:var(--bl);color:#fff;font:700 10px Inter;width:17px;height:17px;border-radius:50%;display:grid;place-items:center}
+.burger{display:none;width:24px;height:24px}
+/* banner: fondo tecnológico a lo ancho, texto al costado (estilo Sky Porto) */
+.hero{position:relative;height:620px;overflow:hidden;background:radial-gradient(900px 520px at 78% 50%,#0B3E9A 0%,rgba(11,62,154,0) 70%),radial-gradient(500px 340px at 92% 12%,rgba(39,196,255,.35),rgba(39,196,255,0) 70%),linear-gradient(110deg,#040B1D 0%,#07122B 45%,#0A1F4D 100%);color:#fff}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(39,196,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(39,196,255,.07) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,transparent 30%,#000 75%)}
+.hero .wrap{position:relative;z-index:2;height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px}
+.hero .kick{color:var(--cy)}
+.hero h1{font:900 50px/1.02 Montserrat;text-transform:uppercase;letter-spacing:-.015em}
+.hero h1 em{font-style:normal;color:var(--cy)}
+.hero p{font-size:17px;line-height:1.6;max-width:440px;margin-top:20px;color:#C9D4EA;font-weight:300}
+.hero .cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.chips{display:flex;gap:18px;margin-top:32px;flex-wrap:wrap;font:700 10.5px Montserrat;letter-spacing:.16em;text-transform:uppercase;color:#AFC0DE}
+.chips span{display:flex;align-items:center;gap:8px}
+.chips span:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+.stack{position:relative;height:460px}
+.stack figure{position:absolute;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.12);background:#0A1530}
+.stack img,.stack video{width:100%;height:100%;object-fit:cover;display:block}
+.stack .f1{width:270px;height:330px;left:6%;top:70px;transform:rotate(-7deg);animation:fl 7s ease-in-out infinite}
+.stack .f2{width:300px;height:370px;left:34%;top:30px;z-index:2;animation:fl 7s ease-in-out -2.3s infinite}
+.stack .f3{width:250px;height:300px;right:0;top:120px;transform:rotate(6deg);animation:fl 7s ease-in-out -4.6s infinite}
+.stack figcaption{position:absolute;left:12px;bottom:12px;background:rgba(7,18,43,.85);backdrop-filter:blur(6px);color:#fff;font:700 10.5px Montserrat;letter-spacing:.1em;text-transform:uppercase;padding:8px 11px;border-radius:999px;display:flex;gap:7px;align-items:center}
+.stack figcaption:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cy)}
+@keyframes fl{0%,100%{translate:0 0}50%{translate:0 -12px}}
+/* beneficios: banda que corre sola (estilo Aurel, en azul) */
+.band{background:var(--bl);color:#fff;padding:20px 0;overflow:hidden}
+.band-t{display:flex;gap:56px;width:max-content;animation:mq 34s linear infinite}
+.band-i{display:flex;align-items:center;gap:14px;white-space:nowrap}
+.band-i i{width:46px;height:46px;border-radius:50%;background:#fff;color:var(--bl);display:grid;place-items:center;flex:none}
+.band-i i svg{width:22px;height:22px}
+.band-i b{font:800 13px Montserrat;letter-spacing:.08em;text-transform:uppercase;display:block}
+.band-i small{font-size:12.5px;color:#D3E2FA}
+/* categorías */
+.cats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.cat{position:relative;display:block;aspect-ratio:4/5;border-radius:16px;overflow:hidden;text-decoration:none;color:#fff;background:var(--gr)}
+.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,18,43,.9) 0%,rgba(7,18,43,0) 55%)}
+.cat div{position:absolute;left:16px;right:16px;bottom:16px;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.cat b{font:900 17px/1.05 Montserrat;text-transform:uppercase}
+.cat small{display:block;font:500 11.5px Inter;opacity:.85;margin-top:5px;text-transform:none}
+.cat span{flex:none;width:34px;height:34px;border-radius:50%;background:var(--bl);display:grid;place-items:center}
+.cat span svg{width:15px;height:15px}
+/* carrusel de productos (estilo Sky Porto: título a la izquierda, flechas) */
+.car{display:grid;grid-template-columns:240px 1fr;gap:30px;align-items:start}
+.car-h .cnt{font:600 13px Inter;color:var(--mu);margin-bottom:10px}
+.car-h .h2{font-size:34px}
+.car-h .sub{font-size:14.5px}
+.arr{display:flex;gap:10px;margin-top:22px}
+.arr button{all:unset;cursor:pointer;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center}
+.arr button svg{width:18px;height:18px}
+.arr button:last-child{background:var(--ink);color:#fff}
+.car-h .link{display:inline-block;margin-top:26px}
+.trk{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px)/4);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.trk::-webkit-scrollbar{display:none}
+.trk .card{scroll-snap-align:start}
+.card{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;background:var(--gr);border-radius:16px;padding:10px 10px 14px}
+.card .ph{position:relative;aspect-ratio:1;overflow:hidden;background:#fff;border-radius:12px}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;bottom:10px;left:10px;z-index:2;background:#fff;color:var(--ink);font:700 10px Inter;padding:5px 9px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.rib{position:absolute;top:18px;right:-34px;z-index:2;width:130px;text-align:center;transform:rotate(45deg);background:var(--rd);color:#fff;font:800 10.5px Montserrat;letter-spacing:.06em;padding:5px 0}
+.card h3{font:700 13.5px/1.3 Montserrat;margin:12px 4px 0}
+.card .lb{font-size:12px;color:var(--mu);margin:3px 4px 0}
+.pr{margin:10px 4px 12px;display:grid;gap:4px}
+.pr b{font:800 19px Montserrat}
+.pr b s{font:500 13px Inter;color:#9AA3B2;margin-left:6px}
+.pr .tr{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--bl);font-weight:600}
+.pr .tr i{white-space:nowrap;font-style:normal;background:var(--bl);color:#fff;font:800 10px Montserrat;padding:3px 7px;letter-spacing:.04em;border-radius:5px}
+.pr .cu{font-size:12px;color:var(--mu)}
+.vp{display:flex;align-items:center;justify-content:center;gap:8px;height:42px;margin:auto 4px 0;border-radius:9px;background:var(--nv);color:#fff;font:800 11px Montserrat;letter-spacing:.1em;text-transform:uppercase}
+.vp svg{width:15px;height:15px}
+.nota{margin-top:26px;font-size:12px;color:var(--mu);display:flex;gap:8px;align-items:center}
+.nota svg{width:15px;height:15px;flex:none}
+/* problema-solución: pregunta + texto breve izq, imagen der */
+.ps{background:var(--nv);color:#fff;position:relative;overflow:hidden}
+.ps:before{content:"";position:absolute;width:700px;height:700px;right:-200px;top:-200px;background:radial-gradient(closest-side,rgba(0,71,175,.55),transparent)}
+.ps .wrap{position:relative}
+.ps .h2{color:#fff}.ps .h2 em{color:var(--cy)}
+.ps .sub{color:#C3CEE3}
+.ps-g{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center}
+.ps-l{display:grid;gap:12px;margin-top:24px}
+.ps-l div{display:flex;gap:12px;align-items:center;font-size:15px;color:#E6ECF7}
+.ps-l i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--cy);color:var(--nv);display:grid;place-items:center}
+.ps-l i svg{width:14px;height:14px}
+.ps .btn{margin-top:28px}
+.psimg{position:relative;width:100%;max-width:420px;justify-self:center;aspect-ratio:9/11;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -25px rgba(0,0,0,.8),0 0 0 1px rgba(39,196,255,.25)}
+.psimg img,.psimg video{width:100%;height:100%;object-fit:cover;display:block}
+.psimg span{position:absolute;left:14px;bottom:14px;background:#fff;color:var(--ink);font:700 11px Montserrat;letter-spacing:.08em;text-transform:uppercase;padding:9px 13px;border-radius:999px;display:flex;gap:8px;align-items:center}
+.psimg span b{width:8px;height:8px;border-radius:50%;background:var(--bl)}
+/* reseñas de Google */
+.gsum{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:#fff;border:1px solid var(--ln);border-radius:16px;padding:18px 24px;margin-bottom:26px}
+.gsum .gl{width:38px;height:38px}
+.gsum .gn{font:800 40px/1 Montserrat}
+.gsum .gt{font-size:13px;color:var(--mu)}
+.gsum .gt b{display:block;color:var(--ink);font:700 15px Inter;margin-bottom:3px}
+.gsum .btn{margin-left:auto;height:46px;font-size:11.5px;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.st{display:flex;gap:2px;color:#FBBC04}.st svg{width:16px;height:16px}
+.marq{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mt{display:flex;gap:16px;width:max-content;animation:mq 46s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+.gr{width:330px;flex:none;border:1px solid var(--ln);padding:22px;background:#fff;border-radius:14px;display:flex;flex-direction:column}
+.gr-h{display:flex;align-items:center;gap:11px}
+.gr-h i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font:600 16px Inter;font-style:normal;flex:none}
+.gr-h b{font:600 14px Inter;display:block}
+.gr-h small{font-size:12px;color:var(--mu)}
+.gr-h .g{margin-left:auto;width:20px;height:20px}
+.gr .st{margin-top:14px}
+.gr p{margin-top:10px;font-size:14px;line-height:1.6;color:#3D4454}
+.tnote{text-align:center;font-size:12px;color:var(--mu);margin-top:20px}
+/* imagen + texto x2 (estructura 3) */
+.it-row{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.it-row+.it-row{margin-top:80px}
+.it-row.rev .it-img{order:-1}
+.it-img{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:var(--gr)}
+.it-img img{width:100%;height:100%;object-fit:cover;display:block}
+.it-img span{position:absolute;right:14px;top:14px;background:var(--nv);color:#fff;font:800 10.5px Montserrat;letter-spacing:.1em;text-transform:uppercase;padding:9px 13px;border-radius:999px}
+.it-txt .btn{margin-top:26px}
+.it-l{display:grid;gap:10px;margin-top:20px}
+.it-l div{display:flex;gap:12px;align-items:center;font-size:15px}
+.it-l i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--bl2);color:var(--bl);display:grid;place-items:center}
+.it-l i svg{width:14px;height:14px}
+/* faq */
+.faq-g{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px}
+.fq{border-bottom:1px solid var(--ln)}
+.fq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:22px 0;font:700 15px Montserrat}
+.fq summary::-webkit-details-marker{display:none}
+.fq summary svg{width:20px;height:20px;flex:none;transition:transform .3s;color:var(--bl)}
+.fq[open] summary svg{transform:rotate(45deg)}
+.fq p{padding:0 40px 22px 0;font-size:15px;line-height:1.65;color:var(--mu);font-weight:300}
+.faq-g .btn{margin-top:24px}
+/* llamado final */
+.cta-f{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(120deg,#07122B,#0A2A6B);color:#fff;border-radius:22px;padding:64px 60px;text-align:center}
+.cta-f:before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(39,196,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(39,196,255,.08) 1px,transparent 1px);background-size:40px 40px}
+.cta-f .h2{color:#fff;font-size:44px;max-width:780px;margin:0 auto}.cta-f .h2 em{color:var(--cy)}
+.cta-f .sub{color:#C3CEE3;margin:14px auto 0}
+.cta-f .bt{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.cta-f .btn{height:56px;padding:0 34px}
+/* mapa */
+.map-g{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:stretch}
+.map-i{background:var(--gr);border-radius:18px;padding:34px}
+.map-i ul{list-style:none;display:grid;gap:16px;margin-top:22px}
+.map-i li{display:flex;gap:12px;font-size:14.5px;line-height:1.45}
+.map-i li svg{width:20px;height:20px;flex:none;color:var(--bl);margin-top:1px}
+.map-i li b{display:block;font-weight:600}
+.map-f{border-radius:18px;overflow:hidden;min-height:340px;background:var(--gr2)}
+.map-f iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+/* pie */
+.foot{background:var(--nv);color:#AEB9CF;padding:10px 0 28px}
+.foot .logo{color:#fff}.foot .logo small{color:var(--cy)}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-top:54px}
+.foot p{font-size:14px;line-height:1.65;margin-top:18px;max-width:320px;font-weight:300}
+.foot h4{font:800 12px Montserrat;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:16px}
+.foot ul{list-style:none;display:grid;gap:10px;font-size:14px;font-weight:300}
+.pay{display:flex;gap:8px;flex-wrap:wrap}
+.pay span{border:1px solid #24345A;padding:6px 10px;border-radius:6px;font:500 11px Inter;color:#E5E9F2}
+.fb{border-top:1px solid #1B2A4D;margin-top:50px;padding-top:22px;display:flex;justify-content:space-between;font-size:12px;color:#7F8AA3}
+.wa{position:sticky;bottom:18px;margin:-70px 18px 18px auto;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 10px 25px -8px rgba(0,0,0,.4);z-index:6}
+.wa svg{width:28px;height:28px;color:#fff}
+/* ---------- ficha ---------- */
+.crumb{display:flex;gap:8px;font-size:12.5px;color:var(--mu);padding:26px 0 22px;flex-wrap:wrap}
+.crumb a{color:var(--mu);text-decoration:none}.crumb b{color:var(--ink);font-weight:600}
+.fx{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}
+.fx-gal{position:sticky;top:100px;display:grid;grid-template-columns:76px 1fr;gap:12px}
+.fx-th{display:grid;gap:10px;align-content:start}
+.fx-th button{all:unset;cursor:pointer;aspect-ratio:1;border-radius:10px;overflow:hidden;outline:2px solid transparent;outline-offset:-2px;background:var(--gr)}
+.fx-th button.on{outline-color:var(--bl)}
+.fx-th img{width:100%;height:100%;object-fit:cover;display:block}
+.fx-main{position:relative;aspect-ratio:1;overflow:hidden;background:var(--gr);border-radius:18px}
+.fx-main img{width:100%;height:100%;object-fit:cover}
+.fx-tags{display:flex;gap:6px;flex-wrap:wrap}
+.fx-tags span{font:800 10px Montserrat;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--nv);padding:6px 10px;border-radius:5px}
+.fx-tags span.r{background:var(--bl)}
+.fx-info h1{font:900 36px/1.05 Montserrat;text-transform:uppercase;margin-top:14px;letter-spacing:-.01em}
+.fx-st{display:flex;align-items:center;gap:2px;color:#FBBC04;margin-top:10px}
+.fx-st svg{width:15px;height:15px}
+.fx-st a{margin-left:10px;font-size:12.5px;color:var(--mu)}
+.emb{margin-top:20px;border:1px solid var(--ln);border-radius:14px;overflow:hidden}
+.emb-r{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--ln)}
+.emb-r:first-child{border-top:0}
+.emb-r span{font:700 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.emb-r b{font:800 20px Montserrat}
+.emb-r.best{background:var(--bl);color:#fff}.emb-r.best span{color:#D3E2FA}.emb-r.best b{font-size:26px}
+.emb-r b.cu{font:600 14px Inter}
+.fx-lbl{font:800 11px Montserrat;letter-spacing:.16em;text-transform:uppercase;margin:22px 0 10px}
+.fx-op{display:flex;gap:8px;flex-wrap:wrap}
+.fx-op span{cursor:pointer;text-align:center;padding:10px 14px;border:1px solid #D3D9E4;border-radius:8px;font:600 13px Inter;background:#fff}
+.fx-op span.on{background:var(--nv);color:#fff;border-color:var(--nv)}
+.fx-buy{display:flex;gap:10px;margin-top:20px}
+.fx-buy .btn{flex:1;height:56px}
+.qty{display:flex;align-items:center;border:1px solid #D3D9E4;border-radius:8px}
+.qty button{all:unset;cursor:pointer;width:42px;height:54px;display:grid;place-items:center;font-size:18px}
+.qty b{min-width:22px;text-align:center;font-weight:600}
+.fx-wa{display:flex;gap:10px;align-items:center;margin-top:14px;font-size:13px;color:var(--ink);font-weight:500;text-decoration:none}
+.fx-wa svg{width:18px;height:18px;flex:none;color:#1DA851}
+.ent{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.ent div{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--ln);padding:12px;border-radius:12px}
+.ent svg{width:22px;height:22px;color:var(--bl);flex:none}
+.ent span{font-size:12px;color:var(--mu);line-height:1.4}
+.ent b{display:block;font-size:13px;color:var(--ink);font-weight:600}
+.fx-nota{font-size:11.5px;color:var(--mu);margin-top:12px}
+.fx-acc{margin-top:18px;border-top:1px solid var(--ln)}
+.fx-bar{display:none}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:80px}
+/* aparición */
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*90ms)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}.mt,.ann-t,.band-t,.stack figure{animation:none}}
+/* ---------- celular (por ancho del sitio) ---------- */
+@container (max-width:760px){
+  .wrap{padding:0 16px}
+  .sec{padding:54px 0}
+  .h2{font-size:27px}
+  .sub{font-size:15px}
+  .head{margin-bottom:22px}
+  .hdr .wrap{height:64px;gap:12px}
+  .burger{display:block}
+  .logo{margin:0 auto;gap:8px}.logo img{width:40px;height:40px}.logo b{font-size:15px}.logo small{font-size:7.5px;letter-spacing:.2em}
+  .nav{display:none}.ico{margin-left:0;gap:12px}.ico .opt{display:none}
+  .hero{height:auto}
+  .hero .wrap{grid-template-columns:1fr;gap:0;padding-top:34px;padding-bottom:30px}
+  .hero .kick{font-size:10px;margin-bottom:8px}
+  .hero h1{font-size:30px}
+  .hero p{font-size:14px;margin-top:10px;line-height:1.5}
+  .hero .cta{margin-top:18px}.hero .cta .btn{height:46px;padding:0 20px;font-size:11px}.hero .cta .o{display:none}
+  .chips{display:none}
+  .stack{order:-1;height:250px;margin-bottom:22px}
+  .stack .f1{width:140px;height:175px;left:0;top:40px}
+  .stack .f2{width:165px;height:205px;left:calc(50% - 82px);top:8px}
+  .stack .f3{width:140px;height:175px;top:52px}
+  .stack figcaption{font-size:8px;padding:5px 8px;left:7px;bottom:7px}
+  .band{padding:14px 0}.band-t{gap:34px;animation-duration:26s}
+  .band-i i{width:36px;height:36px}.band-i i svg{width:17px;height:17px}
+  .band-i b{font-size:11px}.band-i small{font-size:11px}
+  .cats{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:42%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:10px;margin-right:-16px;padding-right:16px}
+  .cats::-webkit-scrollbar{display:none}
+  .cat{scroll-snap-align:start;border-radius:12px}
+  .cat div{left:10px;right:10px;bottom:10px}
+  .cat b{font-size:14px}.cat small{font-size:10px;margin-top:3px}
+  .cat span{width:26px;height:26px}.cat span svg{width:12px;height:12px}
+  .car{grid-template-columns:1fr;gap:18px}
+  .car-h{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+  .car-h .h2{font-size:24px}.car-h .sub,.car-h .link{display:none}
+  .car-h .cnt{font-size:12px;margin-bottom:6px}
+  .arr{margin-top:0}.arr button{width:38px;height:38px}
+  .trk{grid-auto-columns:64%;gap:10px;margin-right:-16px;padding-right:16px}
+  .card{padding:7px 7px 10px;border-radius:12px}.card .ph{border-radius:9px}
+  .card h3{font-size:12px;margin-top:9px}.card .lb{font-size:11px}.pr b{font-size:16px}.pr b s{font-size:11px;margin-left:4px}.pr .tr{font-size:11.5px;gap:5px}.pr .tr i{font-size:9px;padding:2px 5px}.pr .cu{font-size:11px}
+  .vp{height:36px;font-size:9.5px;margin-top:9px}
+  .tag{bottom:7px;left:7px;font-size:9px;padding:4px 7px}
+  .rib{font-size:9px;top:13px;right:-38px}
+  /* texto e imagen lado a lado también en celular */
+  .ps-g{grid-template-columns:1fr 42%;gap:14px}
+  .ps-g .h2{font-size:20px}
+  .ps-g .sub{font-size:12.5px;line-height:1.5;margin-top:8px}
+  .ps-l{display:none}
+  .ps .btn{height:42px;padding:0 14px;font-size:10px;margin-top:14px}
+  .psimg{max-width:none;border-radius:14px}
+  .psimg span{left:6px;bottom:6px;font-size:8px;padding:6px 8px}
+  .gsum{padding:14px 16px;gap:12px}
+  .gsum .gl{width:30px;height:30px}.gsum .gn{font-size:30px}
+  .gsum .btn{margin-left:0;width:100%}
+  .gr{width:280px}
+  .it-row{grid-template-columns:1fr;gap:22px}
+  .it-row.rev .it-img{order:0}
+  .it-row+.it-row{margin-top:54px}
+  .it-txt .btn{width:100%}
+  .faq-g{grid-template-columns:1fr;gap:30px}
+  .fq summary{font-size:14px}
+  .cta-f{padding:44px 20px;border-radius:18px}.cta-f .h2{font-size:27px}.cta-f .btn{width:100%;padding:0 16px}
+  .map-g{grid-template-columns:1fr;gap:16px}
+  .map-i{padding:24px}
+  .map-f,.map-f iframe{min-height:260px}
+  .fg{grid-template-columns:1fr 1fr;gap:32px}.fg>div:first-child{grid-column:1/-1}
+  .foot .logo{margin:0}
+  .fb{flex-direction:column;gap:6px}
+  /* ficha */
+  .crumb{padding:16px 0 12px;font-size:11.5px}
+  .fx{grid-template-columns:1fr;gap:20px}
+  .fx-gal{position:static;grid-template-columns:1fr}
+  .fx-th{grid-template-columns:repeat(4,1fr);order:2;gap:8px}
+  .fx-info h1{font-size:26px}
+  .ent{grid-template-columns:1fr}
+  .emb-r{padding:12px 14px}.emb-r b{font-size:17px}.emb-r.best b{font-size:22px}.emb-r b.cu{font-size:12.5px}.emb-r span{font-size:10px}
+  .fx-buy .btn{height:54px;font-size:12px;white-space:nowrap;padding:0 12px}
+  .g4{grid-template-columns:1fr 1fr;gap:10px}
+  .fx-bar{display:flex;position:sticky;bottom:0;z-index:7;align-items:center;justify-content:space-between;gap:12px;background:#fff;border-top:1px solid var(--ln);padding:10px 16px;box-shadow:0 -8px 24px -12px rgba(0,0,0,.25)}
+  .fx-bar small{display:block;font-size:11px;color:var(--mu)}
+  .fx-bar b{font:800 17px Montserrat}
+  .fx-bar .btn{height:46px;padding:0 20px;font-size:11px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="ok" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ar" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="al" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="gg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></symbol>
+  </defs>
+</svg>
+
+<div class="tool">
+  <b>PRAXIS<span>Despertar Electrónica · Estructura 3 · vista previa de tu web</span></b>
+  <div class="seg pg"><button data-v="home" class="on">Inicio</button><button data-v="ficha">Producto</button></div>
+  <div class="seg">
+    <button data-m="pc" class="on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>PC</button>
+    <button data-m="mob"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>Celular</button>
+  </div>
+</div>
+
+<div class="stage">
+<div class="device" id="device">
+ <div class="chrome"><i></i><i></i><i></i><div class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>despertarelectronica.com.ar</div></div>
+ <div class="screen" id="screen">
+ <div class="site">
+
+  <!-- 1 · Barra de anuncios -->
+  <div class="ann"><div class="ann-t">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Envíos a todo el país</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9 5 4h14l2 5M3 9h18v11H3zM9 20v-6h6v6"/></svg>Venta minorista y mayorista</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Visitanos en Coronel Mercau 505, Merlo</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Envíos a todo el país</div>
+  </div></div>
+
+  <!-- 2 · Encabezado -->
+  <header class="hdr"><div class="wrap">
+    <svg class="burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    <a class="logo" href="#top" data-go="home" aria-label="Despertar Electrónica Merlo"><img src="logo.png" alt=""><span><b>DESPERTAR</b><small>ELECTRÓNICA MERLO</small></span></a>
+    <nav class="nav"><a class="hot" href="#ofertas">Ofertas</a><a href="#prods">Celulares</a><a href="#cats">Audio</a><a href="#cats">TV y video</a><a href="#cats">Hogar</a><a href="#it">Mayorista</a></nav>
+    <div class="ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <svg class="opt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+      <span class="cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b>1</b></span>
+    </div>
+  </div></header>
+
+  <div id="home">
+  <!-- 3 · Banner principal (estilo Sky Porto: fondo tecnológico, texto al costado) -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <div class="kick rv">Despertar Electrónica · Merlo, San Luis</div>
+        <h1 class="rv" style="--i:1">Tecnología<br><em>para tu día a día</em></h1>
+        <p class="rv" style="--i:2">Celulares, audio, TV, conectividad y todo para tu hogar. Te asesoramos de verdad y te lo mandamos a cualquier punto del país.</p>
+        <div class="cta rv" style="--i:3"><a class="btn cy" href="#prods">Ver productos</a><a class="btn o" href="#mapa">Consultar por WhatsApp</a></div>
+        <div class="chips rv" style="--i:4"><span>Envíos a todo el país</span><span>Minorista y mayorista</span><span>Local en Merlo</span></div>
+      </div>
+      <div class="stack rv" style="--i:2">
+        <figure class="f1"><img src="hero-a.jpg" alt=""><figcaption>Celulares</figcaption></figure>
+        <figure class="f2"><video src="hero-v.mp4" poster="hero-v.jpg" autoplay muted loop playsinline></video><figcaption>Nuevos ingresos</figcaption></figure>
+        <figure class="f3"><img src="hero-c.jpg" alt=""><figcaption>Smartwatch</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Beneficios: banda que corre sola (estilo Aurel) -->
+  <section class="band"><div class="band-t" id="band"></div></section>
+
+  <!-- 5 · Categorías -->
+  <section class="sec" id="cats"><div class="wrap">
+    <div class="head"><div><div class="kick">Categorías</div><div class="h2">¿Qué estás <em>buscando?</em></div></div><a class="link" href="#prods">Ver todo</a></div>
+    <div class="cats">
+      <a class="cat rv" href="#prods"><img src="c-cel.jpg" alt=""><div><p><b>Celulares</b><small>Samsung, Motorola, iPhone</small></p><span><svg><use href="#ar"/></svg></span></div></a>
+      <a class="cat rv" style="--i:1" href="#prods"><img src="c-audio.jpg" alt=""><div><p><b>Audio</b><small>Parlantes y auriculares</small></p><span><svg><use href="#ar"/></svg></span></div></a>
+      <a class="cat rv" style="--i:2" href="#prods"><img src="c-tv.jpg" alt=""><div><p><b>TV y video</b><small>Smart TV y TV stick</small></p><span><svg><use href="#ar"/></svg></span></div></a>
+      <a class="cat rv" style="--i:3" href="#prods"><img src="c-watch.jpg" alt=""><div><p><b>Accesorios</b><small>Smartwatch, cargadores, WiFi</small></p><span><svg><use href="#ar"/></svg></span></div></a>
+      <a class="cat rv" style="--i:4" href="#prods"><img src="c-hogar.jpg" alt=""><div><p><b>Hogar</b><small>Estufas, pavas y más</small></p><span><svg><use href="#ar"/></svg></span></div></a>
+    </div>
+  </div></section>
+
+  <!-- 6 · Productos (carrusel estilo Sky Porto) -->
+  <section class="sec" id="prods" style="padding-top:0"><div class="wrap">
+    <div class="car">
+      <div class="car-h">
+        <div><div class="cnt" data-c="tN">1 / 8</div><div class="h2">Los más <em>vendidos</em></div><p class="sub">Lo que más se llevan del local, con stock y envío a todo el país.</p></div>
+        <div><div class="arr" data-t="tN"><button type="button" data-d="-1" aria-label="Anterior"><svg><use href="#al"/></svg></button><button type="button" data-d="1" aria-label="Siguiente"><svg><use href="#ar"/></svg></button></div><a class="link" href="#prods">Ver todos</a></div>
+      </div>
+      <div class="trk" id="tN"></div>
+    </div>
+    <p class="nota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v5h1"/></svg>Fotos reales de Despertar Electrónica. Precios, descuentos y cuotas se toman de tu Tiendanube.</p>
+  </div></section>
+
+  <!-- 7 · Problema-solución -->
+  <section class="sec ps" id="ps"><div class="wrap ps-g">
+    <div>
+      <div class="h2 rv">¿No sabés <em>cuál te conviene?</em></div>
+      <p class="sub rv" style="--i:1">Celular, parlante o repetidor: te decimos cuál va con lo que necesitás y tu presupuesto. Sin vueltas, por WhatsApp o en el local.</p>
+      <div class="ps-l rv" style="--i:2">
+        <div><i><svg><use href="#ok"/></svg></i>Te asesoramos antes de comprar</div>
+        <div><i><svg><use href="#ok"/></svg></i>Productos con garantía</div>
+        <div><i><svg><use href="#ok"/></svg></i>Te lo mandamos a todo el país</div>
+      </div>
+      <a class="btn cy rv" style="--i:3" href="#mapa">Quiero que me asesoren</a>
+    </div>
+    <div class="psimg rv" style="--i:1"><video src="ps-v.mp4" poster="ps-poster.jpg" autoplay muted loop playsinline></video><span><b></b>Nuestro local en Merlo</span></div>
+  </div></section>
+
+  <!-- 8 · Testimonios: reseñas de Google -->
+  <section class="sec" id="tst" style="background:var(--gr)">
+    <div class="wrap">
+      <div class="head"><div><div class="kick">Opiniones</div><div class="h2">Lo que dicen <em>en Google</em></div></div></div>
+      <div class="gsum rv">
+        <svg class="gl"><use href="#gg"/></svg>
+        <div class="gn">4,8</div>
+        <div class="gt"><b>Despertar Electrónica · Merlo</b><span class="st" id="gs"></span></div>
+        <a class="btn" href="#tst">Ver todas en Google</a>
+      </div>
+    </div>
+    <div class="marq"><div class="mt" id="mt"></div></div>
+    <p class="tnote">Reseñas de ejemplo: en tu web se muestran las reales de tu perfil de Google.</p>
+  </section>
+
+  <!-- 9 · Ofertas (carrusel con cinta de % OFF) -->
+  <section class="sec" id="ofertas"><div class="wrap">
+    <div class="car">
+      <div class="car-h">
+        <div><div class="cnt" data-c="tO">1 / 6</div><div class="h2">Ofertas <em>de la semana</em></div><p class="sub">Combos y precios especiales por tiempo limitado.</p></div>
+        <div><div class="arr" data-t="tO"><button type="button" data-d="-1" aria-label="Anterior"><svg><use href="#al"/></svg></button><button type="button" data-d="1" aria-label="Siguiente"><svg><use href="#ar"/></svg></button></div><a class="link" href="#ofertas">Ver todas</a></div>
+      </div>
+      <div class="trk" id="tO"></div>
+    </div>
+  </div></section>
+
+  <!-- 10 · Imagen + texto x2 (estructura 3) -->
+  <section class="sec" id="it" style="padding-top:20px"><div class="wrap">
+    <div class="it-row">
+      <div class="it-txt rv">
+        <div class="kick">Para tu negocio</div>
+        <div class="h2">¿Tenés un local? <em>Comprá por mayor</em></div>
+        <p class="sub">Vendemos minorista y mayorista. Armamos tu pedido con precios por cantidad y te lo mandamos a donde estés.</p>
+        <div class="it-l">
+          <div><i><svg><use href="#ok"/></svg></i>Precios especiales por cantidad</div>
+          <div><i><svg><use href="#ok"/></svg></i>Celulares, audio y accesorios</div>
+          <div><i><svg><use href="#ok"/></svg></i>Atención directa por WhatsApp</div>
+        </div>
+        <a class="btn k" href="#mapa">Pedir lista mayorista</a>
+      </div>
+      <div class="it-img rv" style="--i:1"><img src="it-mayor.jpg" alt=""><span>Minorista y mayorista</span></div>
+    </div>
+    <div class="it-row rev">
+      <div class="it-img rv"><img src="it-local.jpg" alt=""><span>Coronel Mercau 505</span></div>
+      <div class="it-txt rv" style="--i:1">
+        <div class="kick">Desde Merlo a todo el país</div>
+        <div class="h2">Vení al local <em>o te lo mandamos</em></div>
+        <p class="sub">Tenemos todo a la vista en Coronel Mercau 505. Si no estás en Merlo, preparamos tu pedido y lo despachamos a cualquier provincia.</p>
+        <div class="it-l">
+          <div><i><svg><use href="#ok"/></svg></i>Envíos a todo el país</div>
+          <div><i><svg><use href="#ok"/></svg></i>Retiro en Coronel Mercau 505</div>
+          <div><i><svg><use href="#ok"/></svg></i>Seguimiento de tu pedido</div>
+        </div>
+        <a class="btn" href="#prods">Ver productos</a>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- 11 · Preguntas frecuentes -->
+  <section class="sec" id="faq" style="background:var(--gr)"><div class="wrap faq-g">
+    <div><div class="kick">Preguntas frecuentes</div><div class="h2">Todo lo que <em>necesitás saber</em></div><p class="sub">¿Te quedó alguna duda? Escribinos por WhatsApp y te respondemos.</p><a class="btn wsp" href="#mapa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>Consultanos por WhatsApp</a></div>
+    <div id="fq"></div>
+  </div></section>
+
+  <!-- 12 · Llamado final -->
+  <section class="sec"><div class="wrap">
+    <div class="cta-f rv">
+      <div class="h2">¿Buscás algo <em>que no ves acá?</em></div>
+      <p class="sub">Tenemos mucho más en el local. Escribinos qué necesitás y te decimos si lo tenemos y a qué precio.</p>
+      <div class="bt"><a class="btn wsp" href="#mapa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>Escribinos por WhatsApp</a><a class="btn o" href="#prods">Ver todos los productos</a></div>
+    </div>
+  </div></section>
+
+  <!-- 13 · Mapa -->
+  <section class="sec" id="mapa" style="padding-top:0"><div class="wrap map-g">
+    <div class="map-i">
+      <div class="kick">Dónde estamos</div><div class="h2">Visitanos <em>en Merlo</em></div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span><b>Coronel Mercau 505</b>Merlo, San Luis</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.4A9 9 0 1 1 21 12z"/></svg><span><b>WhatsApp</b>2664 58-8083</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Horarios</b>Días y horarios de atención del local</span></li>
+      </ul>
+    </div>
+    <div class="map-f"><iframe title="Mapa" loading="lazy" src="https://www.google.com/maps?q=Coronel+Mercau+505,+Merlo,+San+Luis&z=16&output=embed"></iframe></div>
+  </div></section>
+  </div><!-- /home -->
+
+  <!-- FICHA DE PRODUCTO -->
+  <main id="ficha" hidden><div class="wrap">
+    <div class="crumb"><a href="#top" data-go="home">Inicio</a><span>/</span><a href="#prods" data-go="home">Celulares</a><span>/</span><b id="fxName2">Producto</b></div>
+    <div class="fx">
+      <div class="fx-gal">
+        <div class="fx-th" id="fxTh"></div>
+        <div class="fx-main"><img id="fxImg" src="p-redmi.jpg" alt=""></div>
+      </div>
+      <div class="fx-info">
+        <div class="fx-tags"><span class="r">Con garantía</span><span>Envío a todo el país</span></div>
+        <h1 id="fxName">Producto</h1>
+        <div class="fx-st" id="fxSt"></div>
+        <div class="emb">
+          <div class="emb-r"><span>Precio de lista</span><b>$000.000</b></div>
+          <div class="emb-r best"><span>Con transferencia</span><b>$000.000</b></div>
+          <div class="emb-r"><span>En cuotas</span><b class="cu">Cuotas de tu Tiendanube</b></div>
+        </div>
+        <div class="fx-lbl">Memoria</div>
+        <div class="fx-op"><span class="on">128 GB</span><span>256 GB</span></div>
+        <div class="fx-lbl">Color</div>
+        <div class="fx-op"><span class="on">Negro</span><span>Gris</span><span>Celeste</span></div>
+        <div class="fx-buy">
+          <div class="qty"><button type="button" data-q="-1">−</button><b>1</b><button type="button" data-q="1">+</button></div>
+          <a class="btn" href="#ficha">Agregar al carrito</a>
+        </div>
+        <a class="fx-wa" href="#ficha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.4A9 9 0 1 1 21 12z"/></svg>¿Dudás con el modelo? Te asesoramos por WhatsApp</a>
+        <div class="ent">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><span><b>Envío a todo el país</b>O retiralo en el local de Merlo</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span><b>Compra protegida</b>Producto con garantía</span></div>
+        </div>
+        <p class="fx-nota">Precios, modelos y stock reales se toman de tu Tiendanube.</p>
+        <div class="fx-acc">
+          <details class="fq" open><summary>Descripción<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></summary><p>Acá va la descripción del producto que cargás en tu Tiendanube: pantalla, batería, cámara, memoria y todo lo que tu cliente necesita saber para decidir.</p></details>
+          <details class="fq"><summary>Características<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></summary><p>Ficha técnica del modelo, con los datos de tu Tiendanube.</p></details>
+          <details class="fq"><summary>Envío y garantía<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></summary><p>Envíos a todo el país. Retiro sin cargo en Coronel Mercau 505, Merlo.</p></details>
+        </div>
+      </div>
+    </div>
+    <div class="head" style="margin-top:70px"><div><div class="kick">Completá tu compra</div><div class="h2">También <em>te puede gustar</em></div></div></div>
+    <div class="g4" id="g4"></div>
+  </div>
+  <div class="fx-bar"><div><small id="fxBarN">Producto</small><b>$000.000</b></div><a class="btn" href="#ficha">Agregar</a></div>
+  </main>
+
+  <!-- 14 · Pie -->
+  <footer class="foot"><div class="wrap">
+    <div class="fg">
+      <div><a class="logo" href="#top" data-go="home" aria-label="Despertar Electrónica Merlo"><img src="logo.png" alt=""><span><b>DESPERTAR</b><small>ELECTRÓNICA MERLO</small></span></a><p>Celulares, audio, TV, conectividad y hogar en Merlo, San Luis. Venta minorista y mayorista con envíos a todo el país.</p></div>
+      <div><h4>Categorías</h4><ul><li>Celulares</li><li>Audio</li><li>TV y video</li><li>Accesorios</li><li>Hogar</li></ul></div>
+      <div><h4>Contacto</h4><ul><li>WhatsApp 2664 58-8083</li><li>Instagram @despertar_electronicamerlo</li><li>Coronel Mercau 505, Merlo</li></ul></div>
+      <div><h4>Medios de pago</h4><div class="pay"><span>Visa</span><span>Mastercard</span><span>Mercado Pago</span><span>Transferencia</span></div></div>
+    </div>
+    <div class="fb"><span>© 2026 Despertar Electrónica · Merlo, San Luis</span><span>Diseño y desarrollo: PRAXIS</span></div>
+  </div></footer>
+  <a class="wa" href="#mapa" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.4z"/></svg></a>
+ </div>
+ </div>
+</div>
+</div>
+<script>
+document.documentElement.classList.add('js');
+const $=id=>document.getElementById(id);
+// beneficios (banda que corre)
+const B=[['Envíos a todo el país','Despachamos a cualquier provincia','<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>'],
+ ['Minorista y mayorista','Precios por cantidad','<path d="M3 9 5 4h14l2 5M3 9h18v11H3zM9 20v-6h6v6"/>'],
+ ['Local en Merlo','Coronel Mercau 505','<path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>'],
+ ['Compra protegida','Productos con garantía','<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>'],
+ ['Te asesoramos','Por WhatsApp, sin compromiso','<path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.4A9 9 0 1 1 21 12z"/><path d="M9 10h6M9 14h4"/>'],
+ ['Pagá como quieras','Tarjeta, Mercado Pago o transferencia','<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>']];
+const bi=B.map(b=>`<div class="band-i"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${b[2]}</svg></i><div><b>${b[0]}</b><small>${b[1]}</small></div></div>`).join('');
+$('band').innerHTML=bi+bi;
+// [foto, nombre, línea, etiqueta, fotos extra, % off]
+const P=[
+ ['p-redmi','Samsung Galaxy A57 5G','Nuevo, en caja sellada','Nuevo ingreso',['p-a07'],''],
+ ['p-a07','Samsung Galaxy A07','Nuevo, en caja sellada','Envío a todo el país',['p-redmi'],''],
+ ['hero-a','Redmi A7 Pro','6,9" · 6000 mAh','Nuevo ingreso',[],''],
+ ['p-moto','Motorola G06 / G35 / G56','Nuevos, en caja sellada','Envío a todo el país',[],''],
+ ['p-iphone','iPhone 16 · iPhone 13','128 GB','Consultá stock',[],''],
+ ['p-watch','Smartwatch Noga','Llamadas y notificaciones','Más vendido',['hero-c'],''],
+ ['p-buds','Auriculares Noga','Bluetooth · estuche de carga','',[],''],
+ ['p-parlante','Parlante JBL portátil','Bluetooth · resistente al agua','',[],''],
+ // ofertas
+ ['p-combo','Combo invierno: 2 estufas','Eléctrica 1200 W + 800 W','Combo',['p-estufa'],'-20% OFF'],
+ ['p-estufa','Estufa halógena','3 niveles de potencia','',['p-estufa2'],'-15% OFF'],
+ ['p-calo','Caloventor','Frío / calor','',[],'-10% OFF'],
+ ['p-tvbox','Noga TV Stick 4K','Convertí tu tele en Smart','',[],'-12% OFF'],
+ ['p-noga','Torre Noga Tornado','Bluetooth · luces LED','',[],'-15% OFF'],
+ ['p-pava','Pava eléctrica','Corte automático','',[],'-10% OFF']
+].map((p,i)=>[...p,i]);
+const card=(p,k)=>`<a class="card rv" style="--i:${k%4}" href="#producto" data-p="${p[6]}"><div class="ph"><img src="${p[0]}.jpg" alt="${p[1]}">${p[5]?`<span class="rib">${p[5]}</span>`:''}${p[3]?`<span class="tag">${p[3]}</span>`:''}</div><h3>${p[1]}</h3><div class="lb">${p[2]}</div><div class="pr"><b>$000.000${p[5]?' <s>$000.000</s>':''}</b><span class="tr">$000.000 <i>con transf.</i></span><span class="cu">Cuotas: las de tu Tiendanube</span></div><span class="vp">Ver el producto<svg><use href="#ar"/></svg></span></a>`;
+$('tN').innerHTML=P.slice(0,8).map(card).join('');
+$('tO').innerHTML=P.slice(8,14).map(card).join('');
+$('g4').innerHTML=[P[5],P[6],P[7],P[11]].map(card).join('');
+// carruseles con flechas y contador
+document.querySelectorAll('.arr').forEach(a=>{const t=$(a.dataset.t),c=document.querySelector(`[data-c="${a.dataset.t}"]`),n=t.children.length;
+  const upd=()=>{const w=t.children[0].getBoundingClientRect().width+parseFloat(getComputedStyle(t).columnGap||16);c.textContent=(Math.min(n,Math.round(t.scrollLeft/w)+1))+' / '+n};
+  t.addEventListener('scroll',()=>requestAnimationFrame(upd));
+  a.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const w=t.children[0].getBoundingClientRect().width+16;const max=t.scrollWidth-t.clientWidth;let x=t.scrollLeft+ +b.dataset.d*w;if(x>max+5)x=0;if(x<-5)x=max;t.scrollTo({left:x,behavior:'smooth'})}));});
+const star='<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.6 7 .7-5.3 4.8 1.5 7L12 17.5 5.8 21l1.5-7L2 9.3l7-.7z"/></svg>';
+$('gs').innerHTML=star.repeat(5);$('fxSt').innerHTML=star.repeat(5)+'<a href="#tst">Reseñas de Google</a>';
+// reseñas de ejemplo con formato Google
+const R=[['L','#5E35B1','Lucía F.','hace 2 semanas','Compré un Galaxy A57 y me llegó a Mendoza en 3 días. Me asesoraron por WhatsApp re bien.'],
+ ['M','#00897B','Matías R.','hace 1 mes','El local tiene de todo. Muy buena atención y precios justos. Volví por un parlante.'],
+ ['C','#E53935','Carla P.','hace 3 semanas','Tengo un negocio y les compro por mayor. Cumplen siempre con el pedido y la entrega.'],
+ ['J','#1E88E5','Jorge D.','hace 2 meses','Me explicaron qué repetidor me convenía y ahora tengo WiFi en toda la casa.'],
+ ['S','#F4511E','Sofía B.','hace 1 semana','Súper rápidos para responder. El combo de estufas un golazo para el invierno.'],
+ ['D','#43A047','Diego A.','hace 1 mes','Atención de primera. Se nota que saben de lo que venden.']];
+const T=R.map(r=>`<div class="gr"><div class="gr-h"><i style="background:${r[1]}">${r[0]}</i><div><b>${r[2]}</b><small>${r[3]}</small></div><svg class="g"><use href="#gg"/></svg></div><div class="st">${star.repeat(5)}</div><p>${r[4]}</p></div>`).join('');
+$('mt').innerHTML=T+T;
+const F=[['¿Hacen envíos?','Sí, enviamos a todo el país. Si estás en Merlo, también podés retirar tu compra en el local de Coronel Mercau 505.'],['¿Venden por mayor?','Sí, tenemos venta minorista y mayorista. Escribinos por WhatsApp y te pasamos la lista con precios por cantidad.'],['¿Los productos tienen garantía?','Sí. Todos los productos tienen garantía; el plazo depende de cada marca y modelo.'],['¿Cómo sé qué modelo me conviene?','Contanos para qué lo vas a usar y tu presupuesto, y te recomendamos el ideal por WhatsApp.'],['¿Qué medios de pago aceptan?','Tarjetas de crédito y débito, Mercado Pago y transferencia. Los descuentos y cuotas son los de tu tienda.']];
+$('fq').innerHTML=F.map((f,i)=>`<details class="fq"${i?'':' open'}><summary>${f[0]}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></summary><p>${f[1]}</p></details>`).join('');
+// aparición
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight)el.classList.add('in')}),1500);
+// ficha
+function abrir(i){const p=P[i]||P[0];
+  $('fxName').textContent=$('fxName2').textContent=$('fxBarN').textContent=p[1];
+  const fotos=[p[0],...p[4]];$('fxImg').src=p[0]+'.jpg';
+  $('fxTh').innerHTML=fotos.map((f,k)=>`<button class="${k?'':'on'}" data-src="${f}.jpg"><img src="${f}.jpg" alt=""></button>`).join('');}
+function vista(v,i){const f=v==='ficha';$('home').hidden=f;$('ficha').hidden=!f;
+  document.querySelectorAll('.seg.pg button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  if(f)abrir(i??0);
+  document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'));
+  $('screen').scrollTop=0;}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('a.card');if(c){e.preventDefault();vista('ficha',+c.dataset.p);return}
+  const g=e.target.closest('[data-go="home"]');if(g){e.preventDefault();vista('home');return}
+  const t=e.target.closest('.fx-th button');if(t){t.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===t));$('fxImg').src=t.dataset.src;return}
+  const o=e.target.closest('.fx-op span');if(o){o.parentElement.querySelectorAll('span').forEach(b=>b.classList.toggle('on',b===o));return}
+  const q=e.target.closest('[data-q]');if(q){const b=q.parentElement.querySelector('b');b.textContent=Math.max(1,+b.textContent+ +q.dataset.q);return}
+  const a=e.target.closest('a[href^="#"]');if(a&&!$('home').hidden){const id=a.getAttribute('href').slice(1);const el=id&&$(id);if(el){e.preventDefault();$('screen').scrollTo({top:el.offsetTop-80,behavior:'smooth'})}}
+  else if(a)e.preventDefault();
+});
+document.querySelectorAll('.seg.pg button').forEach(b=>b.addEventListener('click',()=>vista(b.dataset.v)));
+const dev=$('device');
+document.querySelectorAll('.seg:not(.pg) button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.seg:not(.pg) button').forEach(x=>x.classList.toggle('on',x===b));dev.classList.toggle('mob',b.dataset.m==='mob');$('screen').scrollTop=0}));
+const H=location.hash;if(H.includes('celular'))document.querySelector('[data-m=mob]').click();if(H.includes('producto'))vista('ficha',0);
+document.addEventListener('keydown',e=>{if(e.key==='m'||e.key==='M')document.querySelector('.seg:not(.pg) button:not(.on)').click()});
+</script>
+</body>
+</html>
